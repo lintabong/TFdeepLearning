@@ -45,7 +45,7 @@ y_train = np.array(y_train)
 X_test = np.array(X_test).reshape(-1, img_size, img_size, 3)
 y_test = np.array(y_test)
 
-# Create the model architecture
+# model structure
 model = Sequential()
 model.add(Conv2D(64,(3, 3), input_shape=(img_size, img_size, 3)))
 model.add(Activation('relu'))
@@ -65,7 +65,7 @@ model.add(Dense(100, activation='relu'))
 model.add(Dense(16, activation='relu'))
 model.add(Dense(len(CATEGORIES)))
 model.add(Activation('softmax'))
-# compile the model
+# compile
 model.compile(optimizer='adam', loss = 'sparse_categorical_crossentropy',
 metrics=['accuracy'])
 model.summary()
@@ -73,9 +73,8 @@ model.summary()
 batch_size = 32
 epochs = 15
 t1 = time.time()
-# fit the model
-model.fit(X_train, y_train, batch_size = batch_size, epochs=epochs,
-validation_split=0.3, verbose = 1)
+# fit
+model.fit(X_train, y_train, batch_size = batch_size, epochs=epochs,validation_split=0.3, verbose = 1)
 model.save('{}.h5'.format("model"))
 t2 = time.time()
 print('Time taken: ',t2-t1)
