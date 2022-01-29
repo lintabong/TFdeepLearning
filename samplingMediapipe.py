@@ -1,7 +1,8 @@
 import cv2
-from time import sleep
 import os
 import mediapipe as mp
+import numpy
+from time import sleep
 
 myName = input('name = ')
 myName = str(myName)
@@ -27,17 +28,20 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
                 h, w, c = image.shape
                 myL = results.pose_landmarks.landmark
 
-        mp_drawing.draw_landmarks(img, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS)
-
+        blank = numpy.zeros(shape=[img.shape[0],img.shape[1],img.shape[2]], dtype=numpy.uint8)
+        mp_drawing.draw_landmarks(blank, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS)
         img = cv2.flip(img,1)
+        cv2.imshow("skeleton", blank)
         cv2.imshow("frame", img)
 
-
         i = i + 1
-        cv2.imwrite(dirName + '/' + myName  + '/' + myName + str(i) + '.jpg', img)
+        cv2.imwrite(dirName + '/' + myName  + '/' + myName + str(i) + '.jpg', blank)
         sleep(0.1)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+        if i == 300:
             break
 
 cam.release()
