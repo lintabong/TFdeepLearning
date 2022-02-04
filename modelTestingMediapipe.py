@@ -28,19 +28,22 @@ with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=
 
         copImg = img.copy()
         try:
-            x, y, w, h = cv2.get_detection(img)
-            crop_img = blank[y:y + h, x:x + w]
-            crop_img = cv2.resize(crop_img, (100, 100))
+            # x, y, w, h = cv2.get_detection(img)
+            # crop_img = blank[y:y + h, x:x + w]
+            crop_img = cv2.resize(blank, (100, 100))
             crop_img = numpy.expand_dims(crop_img, axis=0)
+
             prediction = model.predict(crop_img)
             index = numpy.argmax(prediction)
             res = CATEGORIES[index]
-            if index == 0:
-                color = (0, 0, 255)
-            else:
-                color = (0, 255, 0)
-            cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
-            cv2.putText(img, res, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2, cv2.LINE_AA)
+
+            # if index == 0:
+            #     color = (0, 0, 255)
+            # else:
+            #     color = (0, 255, 0)
+            # cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
+            # cv2.putText(img, res, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2, cv2.LINE_AA)
+            print(res)
         except:
             pass
 
